@@ -280,3 +280,6 @@ scale = Vector2(2.33693, 2.2374)
 
 [node name="Bomb" parent="." instance=ExtResource("4_qmgog")]
 position = Vector2(675, 548)
+
+[node name="Bomb2" parent="." instance=ExtResource("4_qmgog")]
+position = Vector2(194, 178)
