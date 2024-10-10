@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://pyiuptw6eusn"]
+
+[ext_resource type="Script" path="res://shared_scripts/gloabal_audio_manager.gd" id="1_7u85e"]
+
+[node name="GlobalAudioManager" type="AudioStreamPlayer2D"]
+script = ExtResource("1_7u85e")

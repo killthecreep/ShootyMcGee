@@ -1,0 +1,113 @@
+[gd_scene load_steps=13 format=3 uid="uid://m8batsisdjm0"]
+
+[ext_resource type="Script" path="res://actors/crabby.gd" id="1_fdgn7"]
+[ext_resource type="Texture2D" uid="uid://cne0hoaxxi468" path="res://actors/enimies/sprite_sheet.png" id="2_havsy"]
+[ext_resource type="Script" path="res://actors/idle.gd" id="3_jwuwk"]
+[ext_resource type="Script" path="res://actors/chasing.gd" id="4_f67bb"]
+[ext_resource type="Script" path="res://actors/run_away.gd" id="4_tit2j"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_r77ha"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_etk1h"]
+size = Vector2(39, 21)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o54g2"]
+
+[sub_resource type="Animation" id="Animation_u7tu8"]
+resource_name = "Chasing"
+loop_mode = 1
+step = 0.166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.166667, 0.333333, 0.5, 0.666667, 0.833333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [9, 10, 11, 12, 13, 14]
+}
+
+[sub_resource type="Animation" id="Animation_duc6k"]
+resource_name = "Idle"
+loop_mode = 1
+step = 0.111111
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.111111, 0.222222, 0.333333, 0.444444, 0.555555, 0.666666, 0.777777, 0.888888),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+}
+
+[sub_resource type="Animation" id="Animation_kp2ek"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7as4h"]
+_data = {
+"Chasing": SubResource("Animation_u7tu8"),
+"Idle": SubResource("Animation_duc6k"),
+"RESET": SubResource("Animation_kp2ek")
+}
+
+[node name="Crabby" type="CharacterBody2D" node_paths=PackedStringArray("initial_state")]
+collision_layer = 18
+script = ExtResource("1_fdgn7")
+initial_state = NodePath("States/Idle")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(20, 20)
+texture = SubResource("CanvasTexture_r77ha")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.5, -0.5)
+shape = SubResource("RectangleShape2D_etk1h")
+
+[node name="States" type="Node" parent="."]
+
+[node name="Idle" type="Node" parent="States"]
+script = ExtResource("3_jwuwk")
+
+[node name="Chasing" type="Node" parent="States"]
+script = ExtResource("4_f67bb")
+chase_speed = 15000.0
+
+[node name="Run-away" type="Node" parent="States"]
+script = ExtResource("4_tit2j")
+
+[node name="DetectionRange" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRange"]
+scale = Vector2(15, 15)
+shape = SubResource("CircleShape2D_o54g2")
+
+[node name="CharacterSprite" type="Sprite2D" parent="."]
+position = Vector2(0, -3)
+texture = ExtResource("2_havsy")
+hframes = 4
+vframes = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7as4h")
+}

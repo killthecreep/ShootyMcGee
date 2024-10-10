@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://culgyx0n8w5op"]
+[gd_scene load_steps=11 format=3 uid="uid://culgyx0n8w5op"]
 
 [ext_resource type="Script" path="res://actors/base_enemy.gd" id="1_lelos"]
 [ext_resource type="Script" path="res://actors/idle.gd" id="2_oot8p"]
 [ext_resource type="Script" path="res://actors/chasing.gd" id="3_8uy2w"]
+[ext_resource type="Texture2D" uid="uid://d706jnjmpigl" path="res://actors/enimies/Free Chicken Sprites.png" id="4_e71yh"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_4mtet"]
 
@@ -11,12 +12,51 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_qppx0"]
 radius = 93.2631
 
+[sub_resource type="Animation" id="Animation_adwjy"]
+resource_name = "Idle"
+loop_mode = 1
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.375),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_cxw5c"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_elt7o"]
+_data = {
+"Idle": SubResource("Animation_adwjy"),
+"RESET": SubResource("Animation_cxw5c")
+}
+
 [node name="BaseEnemy" type="CharacterBody2D" node_paths=PackedStringArray("initial_state")]
 collision_layer = 18
 script = ExtResource("1_lelos")
 initial_state = NodePath("States/Idle")
 
 [node name="MainSprite" type="Sprite2D" parent="."]
+visible = false
 modulate = Color(0.760335, 0.109921, 0.195133, 1)
 scale = Vector2(20, 20)
 texture = SubResource("CanvasTexture_4mtet")
@@ -37,3 +77,15 @@ script = ExtResource("3_8uy2w")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRange"]
 scale = Vector2(1.63329, 1.66667)
 shape = SubResource("CircleShape2D_qppx0")
+
+[node name="CharacterSprite" type="Sprite2D" parent="."]
+position = Vector2(2, -1)
+scale = Vector2(1.86433, 2.10086)
+texture = ExtResource("4_e71yh")
+hframes = 4
+vframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_elt7o")
+}

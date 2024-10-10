@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://ck8ii6h2q184n"]
+[gd_scene load_steps=11 format=4 uid="uid://ck8ii6h2q184n"]
 
 [ext_resource type="PackedScene" uid="uid://bd6dv5i5rqini" path="res://actors/player/player.tscn" id="1_ckxcw"]
 [ext_resource type="Texture2D" uid="uid://c3qk51hrv2mes" path="res://Environment/Tilesets/Grass.png" id="2_53o1l"]
@@ -6,12 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://d05cfpxhgcnt1" path="res://Environment/Tilesets/Tilled_Dirt_v2.png" id="3_lhuv8"]
 [ext_resource type="PackedScene" uid="uid://culgyx0n8w5op" path="res://actors/base_enemy.tscn" id="4_a85cv"]
 [ext_resource type="PackedScene" uid="uid://bhohhkq1hshjo" path="res://actors/bomb.tscn" id="4_qmgog"]
-[ext_resource type="PackedScene" uid="uid://dknfidd0uhjhw" path="res://shared_scripts/hud.tscn" id="7_je3tm"]
-[ext_resource type="PackedScene" uid="uid://m8batsisdjm0" path="res://actors/crabby.tscn" id="8_xhxh1"]
-[ext_resource type="AudioStream" uid="uid://ctd8ncsks0xsr" path="res://actors/sounds/time_for_adventure.mp3" id="9_u32th"]
-[ext_resource type="PackedScene" uid="uid://d2yk6sdbgx0k0" path="res://portal.tscn" id="10_863a4"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xdslw"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k5bu7"]
 texture = ExtResource("2_53o1l")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -7, -6, -5.75, -6.875, 8)
@@ -99,7 +95,7 @@ texture = ExtResource("2_53o1l")
 10:5/0 = 0
 10:6/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qkf5q"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3mrdu"]
 texture = ExtResource("2_67b17")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, -7, -7, -8, 8)
@@ -178,7 +174,7 @@ texture = ExtResource("2_67b17")
 9:6/0 = 0
 10:6/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_b7cqv"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7qg5o"]
 texture = ExtResource("3_lhuv8")
 0:0/0 = 0
 1:0/0 = 0
@@ -253,9 +249,9 @@ texture = ExtResource("3_lhuv8")
 
 [sub_resource type="TileSet" id="TileSet_5l8m1"]
 physics_layer_0/collision_layer = 16
-sources/0 = SubResource("TileSetAtlasSource_xdslw")
-sources/1 = SubResource("TileSetAtlasSource_qkf5q")
-sources/2 = SubResource("TileSetAtlasSource_b7cqv")
+sources/0 = SubResource("TileSetAtlasSource_k5bu7")
+sources/1 = SubResource("TileSetAtlasSource_3mrdu")
+sources/2 = SubResource("TileSetAtlasSource_7qg5o")
 
 [node name="Main" type="Node2D"]
 
@@ -283,24 +279,39 @@ position = Vector2(1020, 111)
 position = Vector2(155, 471)
 
 [node name="BaseEnemy2" parent="." instance=ExtResource("4_a85cv")]
-position = Vector2(397, 119)
+position = Vector2(386, 107)
 scale = Vector2(2.33693, 2.2374)
 
-[node name="NewHUD" parent="." instance=ExtResource("7_je3tm")]
+[node name="Bomb" parent="." node_paths=PackedStringArray("text") instance=ExtResource("4_qmgog")]
+position = Vector2(675, 548)
+text = NodePath("../HUD/Bomb_Count")
 
-[node name="Crabby" parent="." instance=ExtResource("8_xhxh1")]
-position = Vector2(996, 520)
-scale = Vector2(1.77754, 2.32104)
+[node name="Bomb2" parent="." node_paths=PackedStringArray("text") instance=ExtResource("4_qmgog")]
+position = Vector2(194, 178)
+text = NodePath("../HUD/Bomb_Count")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("9_u32th")
-autoplay = true
+[node name="HUD" type="CanvasLayer" parent="."]
 
-[node name="Crabby2" parent="." instance=ExtResource("8_xhxh1")]
-position = Vector2(79, 294)
+[node name="TextRec" type="ColorRect" parent="HUD"]
+offset_left = 926.0
+offset_top = 576.0
+offset_right = 934.0
+offset_bottom = 584.0
+scale = Vector2(20.0337, 5.07704)
+color = Color(0.876348, 1, 0.710567, 1)
 
-[node name="Portal" parent="." instance=ExtResource("10_863a4")]
-position = Vector2(618, 547)
+[node name="Bomb Label" type="Label" parent="HUD"]
+modulate = Color(0, 0, 0, 1)
+offset_left = 933.0
+offset_top = 586.0
+offset_right = 995.0
+offset_bottom = 609.0
+text = "Bombs: "
 
-[node name="Bomb" parent="." instance=ExtResource("4_qmgog")]
-position = Vector2(602, 423)
+[node name="Bomb_Count" type="Label" parent="HUD"]
+modulate = Color(0, 0, 0, 1)
+offset_left = 1004.0
+offset_top = 587.0
+offset_right = 1044.0
+offset_bottom = 610.0
+text = "0"

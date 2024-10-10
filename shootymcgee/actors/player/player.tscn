@@ -1,15 +1,14 @@
-[gd_scene load_steps=14 format=3 uid="uid://bd6dv5i5rqini"]
+[gd_scene load_steps=16 format=3 uid="uid://bd6dv5i5rqini"]
 
 [ext_resource type="Script" path="res://actors/player/player.gd" id="1_kvbgu"]
 [ext_resource type="PackedScene" uid="uid://ba7in1774b8hj" path="res://actors/player/projectile.tscn" id="2_mcji8"]
 [ext_resource type="Texture2D" uid="uid://byc1nt5pmles6" path="res://actors/player/Basic Charakter Spritesheet.png" id="3_wj4r6"]
+[ext_resource type="Texture2D" uid="uid://cp72xdt4nlamt" path="res://actors/player/Revolver - Colt 45 [64x32].png" id="4_2a0pu"]
+[ext_resource type="AudioStream" uid="uid://dkv35nrgmk3oc" path="res://actors/sounds/coin.wav" id="5_oyf3d"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_35u60"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_yup3u"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_8xqg5"]
-size = Vector2(50, 50)
 
 [sub_resource type="Animation" id="Animation_a6ivj"]
 length = 0.001
@@ -342,7 +341,10 @@ _data = {
 "walk_right": SubResource("Animation_4shrx")
 }
 
-[node name="Player" type="CharacterBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8xqg5"]
+size = Vector2(50, 50)
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 scale = Vector2(0.817366, 0.823119)
 collision_mask = 31
 motion_mode = 1
@@ -359,9 +361,6 @@ position = Vector2(0.64, 0)
 scale = Vector2(0.2, 0.2)
 texture = SubResource("CanvasTexture_yup3u")
 
-[node name="MainCollider" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_8xqg5")
-
 [node name="ProjectileRefPoint" type="Node2D" parent="."]
 
 [node name="CharacterSprite" type="Sprite2D" parent="."]
@@ -376,3 +375,27 @@ root_node = NodePath("../CharacterSprite")
 libraries = {
 "": SubResource("AnimationLibrary_5fy5x")
 }
+
+[node name="Weapon" type="Node2D" parent="."]
+
+[node name="Ref Point" type="Node2D" parent="Weapon"]
+position = Vector2(24.4688, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Weapon"]
+position = Vector2(51.3846, 0)
+texture = ExtResource("4_2a0pu")
+
+[node name="GunshotEffect" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_oyf3d")
+
+[node name="Area2D" type="Area2D" parent="." groups=["player"]]
+
+[node name="PortalCollider" type="CollisionShape2D" parent="Area2D" groups=["player"]]
+shape = SubResource("RectangleShape2D_8xqg5")
+
+[node name="MainCollider" type="CollisionShape2D" parent="." groups=["player"]]
+shape = SubResource("RectangleShape2D_8xqg5")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="child_entered_tree" from="Area2D/PortalCollider" to="." method="_on_main_collider_child_entered_tree"]
+[connection signal="child_entered_tree" from="MainCollider" to="." method="_on_main_collider_child_entered_tree"]

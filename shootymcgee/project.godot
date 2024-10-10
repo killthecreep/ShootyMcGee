@@ -11,9 +11,15 @@ config_version=5
 [application]
 
 config/name="ShootyMcGee"
-run/main_scene="res://actors/player/main.tscn"
+run/main_scene="res://shared_scripts/title_screen.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+ScoreManager="*res://shared_scripts/score_manager.gd"
+GloabalAudioManager="*res://shared_scripts/gloabal_audio_manager.tscn"
+Bomb="*res://bomb.gd"
 
 [input]
 
@@ -51,5 +57,6 @@ move_down={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"

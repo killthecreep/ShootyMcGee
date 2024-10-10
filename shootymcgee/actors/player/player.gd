@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @export var move_speed: float = 400.0
+@export var gunshot_sfx : Resource 
 @export var projectile_scene: Resource
 
 func _input(event):
@@ -10,9 +11,13 @@ func _input(event):
 			var new_projectile = projectile_scene.instantiate()
 			get_parent().add_child(new_projectile)
 			
+			$GunshotEffect.play()
+			
+			#GloabalAudioManager.play_sfx(gunshot_sfx, 0.4)
+			
 			var projectile_forward = position.direction_to(get_global_mouse_position())
 			new_projectile.fire(projectile_forward, 20.0)
-			new_projectile.position = $ProjectileRefPoint.global_position
+			new_projectile.position = $"Weapon/Ref Point".global_position
 		
 		# This is the shotgun spread code 
 		if(event.button_index == 2 and event.is_pressed()):
@@ -22,6 +27,8 @@ func _input(event):
 			get_parent().add_child(new_projectile)
 			get_parent().add_child(new_projectile2)
 			get_parent().add_child(new_projectile3)
+			
+			$GunshotEffect.play()
 			
 			var projectile_forward = position.direction_to(get_global_mouse_position())
 			new_projectile.fire(projectile_forward, 10.0)
@@ -61,6 +68,8 @@ func _input(event):
 		get_parent().add_child(new_projectile10)
 		get_parent().add_child(new_projectile11)
 		get_parent().add_child(new_projectile12)
+		
+		$GunshotEffect.play()
 			
 		var projectile_forward = Vector2.from_angle(rotation)
 		new_projectile.fire(projectile_forward, 10.0)
@@ -114,6 +123,9 @@ func _input(event):
 func _physics_process(delta):
 	# look_at(get_viewport().get_mouse_position())
 	
+	$Weapon.rotation = position.direction_to(get_global_mouse_position()).angle()
+	$Weapon/Sprite2D.flip_v = ($Weapon.rotation < -PI/2 or $Weapon.rotation > PI/2)
+	
 	velocity = Input.get_vector("move_left", \
 		"move_right",\
 		"move_up",\
@@ -133,3 +145,11 @@ func _physics_process(delta):
 			$AnimationPlayer.play("walk_left")
 		elif (angle  > 45 and angle  < 135):
 			$AnimationPlayer.play("walk_back")
+	
+	
+
+		
+
+#func _on_body_entered(body: Node2D):
+	#if(body as Bomb):
+		#print("testing")
