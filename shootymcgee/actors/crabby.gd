@@ -16,6 +16,11 @@ func hit(damage_number: int):
 		queue_free()
 		#get_tree().get_root().get_node("Main/NewHUD").add_score(1)
 
+func _on_crabby_hit_area_entered(body):
+	if body.is_in_group("player"):
+		print("Player hit")
+		ScoreManager.decrease_Health()
+
 func animations():
 	if (velocity.length() < 10):
 		$AnimationPlayer.play("Idle")

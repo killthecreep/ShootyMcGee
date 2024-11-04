@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://m8batsisdjm0"]
+[gd_scene load_steps=14 format=3 uid="uid://m8batsisdjm0"]
 
 [ext_resource type="Script" path="res://actors/crabby.gd" id="1_fdgn7"]
 [ext_resource type="Texture2D" uid="uid://cne0hoaxxi468" path="res://actors/enimies/sprite_sheet.png" id="2_havsy"]
@@ -69,6 +69,9 @@ _data = {
 "RESET": SubResource("Animation_kp2ek")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e31nn"]
+size = Vector2(40, 23)
+
 [node name="Crabby" type="CharacterBody2D" node_paths=PackedStringArray("initial_state")]
 collision_layer = 18
 script = ExtResource("1_fdgn7")
@@ -90,7 +93,6 @@ script = ExtResource("3_jwuwk")
 
 [node name="Chasing" type="Node" parent="States"]
 script = ExtResource("4_f67bb")
-chase_speed = 15000.0
 
 [node name="Run-away" type="Node" parent="States"]
 script = ExtResource("4_tit2j")
@@ -98,7 +100,7 @@ script = ExtResource("4_tit2j")
 [node name="DetectionRange" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRange"]
-scale = Vector2(15, 15)
+scale = Vector2(44.0391, 41.7839)
 shape = SubResource("CircleShape2D_o54g2")
 
 [node name="CharacterSprite" type="Sprite2D" parent="."]
@@ -111,3 +113,12 @@ vframes = 4
 libraries = {
 "": SubResource("AnimationLibrary_7as4h")
 }
+
+[node name="CrabbyHit" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CrabbyHit"]
+light_mask = 2
+position = Vector2(2, -1.5)
+shape = SubResource("RectangleShape2D_e31nn")
+
+[connection signal="area_entered" from="CrabbyHit" to="." method="_on_crabby_hit_area_entered"]

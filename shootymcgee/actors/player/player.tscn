@@ -342,10 +342,12 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8xqg5"]
-size = Vector2(50, 50)
+size = Vector2(41.597, 38.8765)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
+visibility_layer = 15
 scale = Vector2(0.817366, 0.823119)
+collision_layer = 15
 collision_mask = 31
 motion_mode = 1
 script = ExtResource("1_kvbgu")

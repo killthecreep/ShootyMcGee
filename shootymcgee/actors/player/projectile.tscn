@@ -11,7 +11,7 @@
 [node name="Projectile" type="Area2D"]
 scale = Vector2(0.786392, 0.734889)
 collision_layer = 4
-collision_mask = 2
+collision_mask = 18
 script = ExtResource("1_phloy")
 
 [node name="MainSprite" type="Sprite2D" parent="."]

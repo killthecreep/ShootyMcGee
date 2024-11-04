@@ -1,16 +1,9 @@
 extends State
 class_name Run_Away
 
-signal Transitioned
+@export var chase_speed : float = 5000.0
+var target : CharacterBody2D
 
-func Enter():
-	pass
-	
-func Exit():
-	pass
-
-func Update(delta: float):
-	pass
-
-func Physics_Update(delta: float):
-	pass
+func process_state(delta: float):
+	body.velocity = (target.position - body.position).normalized() * chase_speed * delta
+	body.move_and_slide()

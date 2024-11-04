@@ -22,3 +22,6 @@ func _on_body_entered(body: Node2D):
 	if(body as Crabby):
 		body.hit(1)
 		queue_free()
+	if(body as Goblin):
+		body.hit(1)
+		queue_free()
